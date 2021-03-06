@@ -5,6 +5,4 @@ import (
 )
 
 func main() {
-	slice.TestSlice()
-	ds.TestArr()
 }
