@@ -19,4 +19,9 @@
 
 - Close (Four wave hands)
 
+    1. Client sends a FIN package that indicates that there's no data it wants to send   so please shutdown the connection elegantly, and transits into FIN_WAIT_1 state
+    2. When server side receives the FIN package, it will transit into CLOSE_WAIT state, and send a ACK package to the client. After client receives the ACK, it transits into a FIND_WATI_2 state.
+    3. When there's no data needed to be sent at the server side, it will send a FIN package to the client. Client receives the FIN package, replies with a ACK package and transits into TIME_WAIT state, server receives the ACK and transits into CLOSED state.
+    4. The client will wait for 2 Maximum segment lifetime, then it will transit into CLOSED state
+
 
