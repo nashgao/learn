@@ -24,4 +24,9 @@
     3. When there's no data needed to be sent at the server side, it will send a FIN package to the client. Client receives the FIN package, replies with a ACK package and transits into TIME_WAIT state, server receives the ACK and transits into CLOSED state.
     4. The client will wait for 2 Maximum segment lifetime, then it will transit into CLOSED state
 
+- Tips:
+    1. consider the CLOSE_WAIT from the server side as waiting for all data to be sent. 
+    2. reasons for TIME_WAIT state:
+       1. Stop from the delayed packages. Each TCP package contains a unique SEQ number, if the client side to wait for 2 MSL as the TIME_WAIT and client is CLOSED, there might be a new connection established and will receive the delayed package
+       2. Make sure the server side will shutdown elegantly. If the client is not waiting long enought, while the server hasn't received the ACK package, so it will consider the connection is still legit. When new connections from the client side are coming in, since the previous connection is still alive, the server will reject the SYN packge with a RST.
 
