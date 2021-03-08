@@ -30,3 +30,19 @@
        1. Stop from the delayed packages. Each TCP package contains a unique SEQ number, if the client side to wait for 2 MSL as the TIME_WAIT and client is CLOSED, there might be a new connection established and will receive the delayed package
        2. Make sure the server side will shutdown elegantly. If the client is not waiting long enought, while the server hasn't received the ACK package, so it will consider the connection is still legit. When new connections from the client side are coming in, since the previous connection is still alive, the server will reject the SYN packge with a RST.
 
+
+- Short and Long Connecrtions
+  - Short Conn
+    - Pros: 
+      1. Easy to use.
+      2. The numbers of the connections should be lower in theory.
+      3. Friendly to stateless load balancing. 
+    - Cons: 
+      1. Performance Issue. Each connection has a 3-time shake hand and 4-time wave hand, including setting up timer, enqueue and dequeue, maintain time wait status.
+      2. Slow start. After the connection is established, when the client starts to send data to the server. The speed of transmission will start from a small number, and each time multiplied by 2 until it reachs the limitation.
+      3. Unstable.During the data transmission, if there are some network issues which let routers somehow lose the package, the client will resent the package after 200ms. But where resent during the shake hand period is on second level (rtt, rto).
+
+  - Long Conn:
+    - Pros:
+    - Cons:
+      1. Connection timeout. For example, MySQL server usually checks if there are some idle connections, which lead to connection timeout at the client side
